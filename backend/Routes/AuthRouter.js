@@ -3,15 +3,32 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const { BlobServiceClient } = require("@azure/storage-blob");
+const { v4: uuidv4 } = require("uuid");
+require("dotenv").config();
+
 const Visit = require('../models/visitId');  // Path to the Visit model
 const Report = require("../models/report");
 
 const { signup, login, forgotPassword, resetPassword } = require('../controllers/Authcontroller');
 const { signupvalidation, loginValidation } = require('../middlewares/Authvalidation');
 
-const router = require('express').Router();
+const router = express.Router();
 
-
+// Multer configuration for handling file uploads
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100MB limit for files
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('video/') || file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only video and PDF files are allowed'), false);
+    }
+  }
+});
 
 // Login route
 router.post('/login', loginValidation, login);
@@ -25,34 +42,7 @@ router.post('/forgot-password', forgotPassword);
 // Reset password route
 router.post('/reset-password', resetPassword);
 
-
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const folderPath = path.join(__dirname, 'uploads');
-    // Create 'uploads' directory if it doesn't exist
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath, { recursive: true });
-    }
-    cb(null, folderPath); // Save files to 'uploads' folder
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Save with unique filename
-  },
-});
-
-// Create a file filter to handle only video and PDF file types
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('video/') || file.mimetype === 'application/pdf') {
-    cb(null, true); // Accept video and PDF files
-  } else {
-    cb(new Error('Only video and PDF files are allowed'), false); // Reject other file types
-  }
-};
-
-
-// Use this middleware to upload video and report files
-const upload = multer();
+// Submit visit route
 router.post("/api/submit-visit", upload.single("pdfFile"), async (req, res) => {
   try {
     let {
@@ -232,18 +222,16 @@ router.get("/api/reports", async (req, res) => {
   }
 });
 
-const { BlobServiceClient } = require("@azure/storage-blob");
-const { v4: uuidv4 } = require("uuid"); // Ensure UUID is imported
-require("dotenv").config();
-
+// File upload endpoint
 router.post("/upload", upload.single("file"), async (req, res) => {
   const { temp } = req.body;
+  
   try {
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+      return res.status(400).json({ error: "No file uploaded or invalid file type" });
     }
 
-    const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME; // Replace with your actual Azure Storage account name
+    const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
     const sasToken = process.env.AZURE_STORAGE_SAS_TOKEN;
     const blobServiceClient = new BlobServiceClient(
       `https://${accountName}.blob.core.windows.net?${sasToken}`
@@ -251,18 +239,26 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     const containerClient = blobServiceClient.getContainerClient("scan-videos");
 
     //const blobName = `${uuidv4()}-${req.file.originalname}`;
-    const blobName = `${temp}_video.mp4`;
+    // Ensure the blob name has a .mp4 extension
+    const fileExtension = req.file.originalname.split('.').pop().toLowerCase();
+    const blobName = `${temp}_video.${fileExtension}`;
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-    await blockBlobClient.uploadData(req.file.buffer, {
-      blobHTTPHeaders: {
-        blobContentType: req.file.mimetype, // e.g., 'video/mp4'
-      },
-    });
-
-    const blobUrl = blockBlobClient.url;
-
-    res.status(200).json({ message: "Upload successful", url: blobUrl });
+    try {
+      await blockBlobClient.uploadData(req.file.buffer, {
+        blobHTTPHeaders: {
+          blobContentType: req.file.mimetype,
+        },
+      });
+      const blobUrl = blockBlobClient.url;
+      res.status(200).json({ message: "Upload successful", url: blobUrl });
+    } catch (uploadError) {
+      console.error('Azure upload error:', uploadError);
+      return res.status(500).json({ 
+        error: 'Failed to upload file to storage', 
+        details: uploadError.message 
+      });
+    }
   } catch (err) {
     console.error("Upload Error:", err);
     res.status(500).json({ error: "Upload failed", details: err.message });

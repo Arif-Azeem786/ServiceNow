@@ -12,8 +12,19 @@ require('./models/azureblobservice');
 const PORT = process.env.PORT || 3000; // Changed default port to 3000
 
 // CORS configuration
+const allowedOrigins = [
+  'https://service-now-blond.vercel.app',
+  'http://localhost:5173'
+];
+
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true

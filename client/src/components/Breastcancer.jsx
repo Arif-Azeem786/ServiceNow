@@ -159,64 +159,68 @@ export default function BreastCancerDetection({ logoutFunction }) {
   const handleFileUpload = async (event) => {
     if (count > 0) return;
 
-    let randString = await generateRandomString(12);
     const file = event.target.files[0]; // Get the uploaded file
-
     if (!file) return;
 
-    const now = new Date();
-    temp = `TEMPSETV_ULTS_${randString}_${String(now.getDate()).padStart(
-      2,
-      "0"
-    )}${String(now.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}${now.getFullYear()}${String(now.getHours()).padStart(2, "0")}${String(
-      now.getMinutes()
-    ).padStart(2, "0")}`;
-    setVisitId(temp);
-    
-
-    // Extract the file extension
-    const fileExtension = file.name.split(".").pop(); // Get file extension
-    const newFileName = `${temp}.${fileExtension}`; // Append extension to new name
+    // Check if file is a video
+    if (!file.type.startsWith('video/')) {
+      toast.error("Please upload a valid video file");
+      return;
+    }
 
     try {
-      // ✅ Use `await` to ensure buffer is available before creating the Blob
-      const buffer = await file.arrayBuffer();
-      const renamedFile = new Blob([buffer], { type: file.type });
-
-      // Append to FormData
+      // Generate a unique filename
+      const randString = await generateRandomString(12);
+      const now = new Date();
+      const temp = `TEMPSETV_ULTS_${randString}_${String(now.getDate()).padStart(2, "0")}${String(now.getMonth() + 1).padStart(2, "0")}${now.getFullYear()}${String(now.getHours()).padStart(2, "0")}${String(now.getMinutes()).padStart(2, "0")}`;
+      
+      setVisitId(temp);
+      
+      // Create FormData and append the file
       const formData = new FormData();
-      formData.append("file", renamedFile, newFileName);
-      formData.append("pdfFile", pdfBlob);
+      formData.append("file", file);
       formData.append("temp", temp);
 
+      // Show loading state
+      toast.loading("Uploading video...");
+
+      // Upload the file
       const response = await fetch("http://localhost:8080/auth/upload", {
         method: "POST",
         body: formData,
       });
 
+      if (!response.ok) {
+        throw new Error(`Upload failed with status: ${response.status}`);
+      }
+
       const data = await response.json();
       setVideoLink(data.url);
-
-      
-
       setUploadedFile(file);
-      toast.success("File uploaded successfully!");
+      
+      toast.dismiss();
+      toast.success("Video uploaded successfully!");
 
+      // Set up video element
       const video = videoRef.current;
       if (video) {
-        video.src = URL.createObjectURL(file);
+        const videoUrl = URL.createObjectURL(file);
+        video.src = videoUrl;
         video.onloadeddata = () => {
+          // Start analysis after video is loaded
           handleAnalyze();
         };
+        video.onerror = () => {
+          toast.error("Error loading video");
+        };
       } else {
-        console.error("Video element is not available for processing.");
+        console.error("Video element is not available");
+        toast.error("Error: Video element not found");
       }
     } catch (err) {
-      console.error(err);
-      console.log("An error occurred during upload");
+      console.error("Upload error:", err);
+      toast.dismiss();
+      toast.error(`Upload failed: ${err.message || 'Unknown error'}`);
     }
   };
 
