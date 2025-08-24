@@ -110,19 +110,8 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-
   try {
-    const { email, password, recaptcha } = req.body;
-    const secretKey = process.env.SECRET_KEY;
-    const googleVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptcha}`;
-
-    const googleRes = await axios.post(googleVerifyUrl);
-
-    if (!googleRes.data.success) {
-      return res
-        .status(400)
-        .json({ success: false, message: "reCAPTCHA verification failed." });
-    }
+    const { email, password } = req.body;
 
     // Find user by original email field
     const maskedEmail = maskEmail(email);

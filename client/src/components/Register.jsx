@@ -94,7 +94,6 @@ import { Eye, EyeClosed } from "lucide-react";
 import logo from "../assets/ServiceNow_idno3ayWVM_1.png";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate , Link } from "react-router-dom";
-import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
 
 function SignupForm() {
   const {
@@ -123,10 +122,6 @@ function SignupForm() {
       return;
     }
 
-    if (!captchaValue) {
-      toast.error("Please verify the reCAPTCHA.");
-      return;
-    }
   
     try {
       const url = "http://localhost:8080/auth/signup";
@@ -135,7 +130,7 @@ function SignupForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...payload, recaptcha: captchaValue }), // Send reCAPTCHA token
+        body: JSON.stringify(payload)
       });
   
       const result = await response.json();
@@ -366,11 +361,6 @@ function SignupForm() {
           </div>
         </div>
 
-         {/* reCAPTCHA */}
-         <div className="flex justify-center mt-4">
-            <ReCAPTCHA sitekey='6LcYbOMqAAAAABnhImukf_SpFrE6w7e_y2vdACr3' id='captcha' onChange={(value) => setCaptchaValue(value)} />
-          </div>
-          
 
         {/* Submit Button */}
         <Button

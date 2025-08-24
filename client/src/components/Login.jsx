@@ -74,7 +74,6 @@ import logo from "../assets/ServiceNow_idno3ayWVM_1.png";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./auth";
-import ReCAPTCHA from "react-google-recaptcha"; // Import reCAPTCHA
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -89,18 +88,12 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const [captchaValue, setCaptchaValue] = useState(null); // Store reCAPTCHA response
   const onSubmit = async (data) => {
-    if (!captchaValue) {
-      toast.error("Please verify the reCAPTCHA.");
-      return;
-    }
-
     try {
       const response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, recaptcha: captchaValue }), // Send reCAPTCHA token
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
@@ -196,15 +189,6 @@ const Login = () => {
                 {errors.password.message}
               </p>
             )}
-          </div>
-
-          {/* reCAPTCHA */}
-          <div className="flex justify-center">
-            <ReCAPTCHA
-              sitekey="6LcYbOMqAAAAABnhImukf_SpFrE6w7e_y2vdACr3"
-              id="captcha"
-              onChange={(value) => setCaptchaValue(value)}
-            />
           </div>
 
           {/* Forgot Password */}

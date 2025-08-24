@@ -9,10 +9,16 @@ require('dotenv').config();
 require('./models/db');
 require('./models/azureblobservice');
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000; // Changed default port to 3000
 
-// CORS configuration (you might want to customize this)
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 // Body parsing middleware with increased limits
 app.use(express.json({ limit: '50mb' })); // For JSON requests
@@ -32,6 +38,15 @@ app.use('/auth', Authrouter);
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Trying another port...`);
+    // Try the next port
+    const newPort = parseInt(PORT) + 1;
+    server.listen(newPort);
+  } else {
+    console.error('Server error:', err);
+  }
 });
