@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const Authrouter = require('./Routes/AuthRouter');
+const AIrouter = require('./Routes/AIRouter');
 
 require('dotenv').config();
 require('./models/db');
@@ -13,7 +14,7 @@ const PORT = process.env.PORT || 3000; // Changed default port to 3000
 
 // CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'https://service-now-blond.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -34,6 +35,7 @@ app.use(express.urlencoded({
 
 // Routes
 app.use('/auth', Authrouter);
+app.use('/ai', AIrouter);
 
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
