@@ -101,7 +101,7 @@ export default function AllReports({ logoutFunction }) {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await fetch("http://localhost:8080/auth/api/reports"); // Adjust URL if needed
+        const response = await fetch("https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/api/reports"); // Adjust URL if needed
         if (!response.ok) {
           throw new Error("Failed to fetch reports");
         }

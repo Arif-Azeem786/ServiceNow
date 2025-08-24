@@ -78,7 +78,7 @@ const ResultFrames = () => {
       const folder = sessionStorage.getItem("folder");
       try {
         const response = await fetch(
-          `http://localhost:8080/auth/get-frames/${folder}`
+          `https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/get-frames/${folder}`
         );
         const data = await response.json();
         setImages(data.images); // Set image URLs in state

@@ -94,7 +94,7 @@ const ResetPassword = () => {
   
 
     try {
-      const url = "http://localhost:8080/auth/reset-password";
+      const url = "https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/reset-password";
       const response = await fetch(url, {
         method: "POST",
         headers: {

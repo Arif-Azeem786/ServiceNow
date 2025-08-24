@@ -124,7 +124,7 @@ function SignupForm() {
 
   
     try {
-      const url = "http://localhost:8080/auth/signup";
+      const url = "https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {

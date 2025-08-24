@@ -185,7 +185,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
       toast.loading("Uploading video...");
 
       // Upload the file
-      const response = await fetch("http://localhost:8080/auth/upload", {
+      const response = await fetch("https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/upload", {
         method: "POST",
         body: formData,
       });
@@ -262,7 +262,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
 
         // Send to backend to store the visit data
         const response = await fetch(
-          "http://localhost:8080/auth/api/submit-visit",
+          "https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/api/submit-visit",
           {
             method: "POST",
             body: formData,
@@ -468,7 +468,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
 
   const uploadFrameToAzure = async (base64Image, idx, visitId) => {
     try {
-      const response = await fetch("http://localhost:8080/auth/upload-frame", {
+      const response = await fetch("https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/upload-frame", {
         method: "POST",
         mode: "cors", // Allow cross-origin requests
         headers: {
