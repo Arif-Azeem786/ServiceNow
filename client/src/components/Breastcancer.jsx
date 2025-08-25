@@ -552,15 +552,15 @@ export default function BreastCancerDetection({ logoutFunction }) {
       // Header Section
       doc.setFontSize(14);
       doc.setTextColor(0, 51, 102);
-      doc.text("THE SETV.G HOSPITAL", 105, 15, { align: "center" });
+      doc.text("ServiceNow HealthCare", 105, 15, { align: "center" });
       doc.setFontSize(12);
-      doc.text("Accurate | Caring | Instant", 105, 22, { align: "center" });
-      doc.text("Phone: 040-XXXXXXXXX / +91 XX XXX XXX", 105, 30, {
+      doc.text("Smart | Reliable | Instant", 105, 22, { align: "center" });
+      doc.text("Phone: +91-XXXXXXXXXX", 105, 30, {
         align: "center",
       });
-      doc.text("Email: setvgbhospital@gmail.com", 105, 37, { align: "center" });
+      doc.text("Email: servicenowhealth@gmail.com", 105, 37, { align: "center" });
       doc.text(
-        "SETV.ASRV LLP, Avishkaran, NIPER, Balanagar, Hyderabad, Telangana, 500037.",
+        "ServiceNow HQ, Hyderabad, Telangana, 500037",
         105,
         44,
         { align: "center" }
@@ -633,7 +633,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
       doc.setFillColor(24, 185, 232).rect(0, 280, 210, 10, "F");
       doc.setTextColor(255, 255, 255).setFontSize(10);
       doc.text(
-        "Page 1 || THE SETV.G HOSPITAL || EMERGENCY CONTACT - +91 XXXXXXXXXX",
+        "Page 1 || ServiceNow HealthCare || EMERGENCY CONTACT - +91 XXXXXXXXXX",
         105,
         286,
         { align: "center" }
@@ -642,9 +642,9 @@ export default function BreastCancerDetection({ logoutFunction }) {
       // Page 2 - Recommendations, Correlation & Disclaimer
       doc.addPage();
       doc.setFontSize(14).setTextColor(0, 51, 102);
-      doc.text("THE SETV.G HOSPITAL", 105, 15, { align: "center" });
+      doc.text("ServiceNow HealthCare", 105, 15, { align: "center" });
       doc.setFontSize(12);
-      doc.text("Accurate | Caring | Instant", 105, 22, { align: "center" });
+      doc.text("Smart | Reliable | Instant", 105, 22, { align: "center" });
 
       doc.setFillColor(255, 0, 0).rect(0, 25, 210, 3, "F");
       doc.setFillColor(0, 0, 255).rect(0, 28, 210, 3, "F");
@@ -681,7 +681,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
       doc.setFillColor(24, 185, 232).rect(0, 280, 210, 10, "F");
       doc.setTextColor(255, 255, 255);
       doc.text(
-        "Page 2 || THE SETV.G HOSPITAL || EMERGENCY CONTACT - +91 XXXXXXXXXX",
+        "Page 2 || ServiceNow HealthCare || EMERGENCY CONTACT - +91 XXXXXXXXXX",
         105,
         286,
         { align: "center" }
