@@ -80,9 +80,8 @@ import SideBar from "@/components/kunal_components/SideBar";
 // Import the custom sidebar
 //import report from "./../assets/om.pdf"
 import logo from "../assets/ServiceNow_idno3ayWVM_1.png";
-// import logo2 from "../assets/setvlogo.jpeg";
-// If you need a secondary logo, use the ServiceNow logo instead:
-// import logo2 from "../assets/ServiceNow_idno3ayWVM_1.png";
+// Using ServiceNow logo for PDF header
+// import logo2 from "../assets/setvlogo.jpeg"; // Original logo not available
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
@@ -298,7 +297,7 @@ export default function FibroidDetection({ logoutFunction }) {
   let idx = 0;
   const sendFramesToBackend = async (frames) => {
     try {
-      const response = await fetch("http://localhost:5000/fibroid-detection/", {
+      const response = await fetch("https://servicenow-1-rcpd.onrender.com/ai/fibroid-detection/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -542,9 +541,9 @@ export default function FibroidDetection({ logoutFunction }) {
     try {
       const doc = new jsPDF();
 
-      // Add logo if available
-      if (logo2) {
-        doc.addImage(logo2, "JPEG", 10, 10, 25, 20);
+      // Add ServiceNow logo to PDF header
+      if (logo) {
+        doc.addImage(logo, "PNG", 10, 10, 25, 20);
       }
 
       // Header Section
@@ -839,7 +838,7 @@ export default function FibroidDetection({ logoutFunction }) {
 
       try {
         const response = await fetch(
-          "http://localhost:5000/generate-findings1/",
+          "https://servicenow-1-rcpd.onrender.com/ai/generate-findings1/",
           {
             method: "POST",
             headers: {
