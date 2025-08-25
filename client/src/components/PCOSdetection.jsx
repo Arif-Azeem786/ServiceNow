@@ -431,7 +431,7 @@ export default function PCOSDETECTION({ logoutFunction }) {
 
   };
 
-
+const uploadFrameToAzure = async (base64Image, idx, visitId) => {
   try {
     const response = await fetch("https://servicenow-1-rcpd.onrender.com/auth/upload-frame", {
       method: "POST",
