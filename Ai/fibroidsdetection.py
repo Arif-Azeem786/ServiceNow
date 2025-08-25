@@ -26,7 +26,7 @@ final_frames = []
 
 # Configuration for deployment
 class DeploymentConfig:
-    MODEL_PATH = "C:\\Users\\LENOVO\\Downloads\\Breastcancer3.0 (6)\\Breastcancer3.0\\Breastcancer\\Ai\\weights\\fibroid_yolo_model.pt"
+    MODEL_PATH = os.path.join(os.path.dirname(__file__), "weights", "fibroid_yolo_model.pt")
      
     VIDEO_SAVE_DIR = "video"
     FIBROID_FRAME_DIR = "frames/fibroid_frames"
