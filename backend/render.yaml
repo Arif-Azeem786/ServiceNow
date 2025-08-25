@@ -2,7 +2,7 @@ services:
   - type: web
     name: servicenow-backend
     env: node
-    buildCommand: npm install && npm rebuild bcrypt --build-from-source
+    buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
