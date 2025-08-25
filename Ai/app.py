@@ -16,22 +16,6 @@ CORS(app)  # Enable CORS for React frontend
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@app.route("/", methods=["GET"])
-def health_check():
-    return jsonify({
-        "status": "healthy",
-        "service": "ServiceNow AI Service",
-        "version": "1.0.0",
-        "endpoints": [
-            "/analyze-video/",
-            "/fibroid-detection/", 
-            "/pcos-detection/",
-            "/generate-findings/",
-            "/generate-findings1/",
-            "/generate-findings2/"
-        ]
-    })
-
 
 from flask import Response, jsonify
 import json

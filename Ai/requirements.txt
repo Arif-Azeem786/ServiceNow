@@ -7,6 +7,4 @@ ultralytics     # YOLO model
 numpy           # for numerical operations (often used with OpenCV)
 fpdf
 Pillow          # python Imaging Library (PIL) for image processing
-matplotlib      # plotting graphs and charts
-supervision     # for computer vision annotations and utilities
-gradio          # for web interface components
+matplotlib      # plotting graphs and charts.

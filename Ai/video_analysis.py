@@ -26,7 +26,7 @@ final_frames = []
 
 # Configuration for deployment
 class DeploymentConfig:
-    MODEL_PATH = os.path.join(os.path.dirname(__file__), "weights", "best.pt")
+    MODEL_PATH = 'C:\\Users\\LENOVO\\Downloads\\Breastcancer3.0 (6)\\Breastcancer3.0\\Breastcancer\\Ai\\weights\\best.pt'
     VIDEO_SAVE_DIR = "video"
     MALIGNANT_FRAME_DIR = "frames/MALIGNANT_frames"
     BENIGN_FRAME_DIR = "frames/BENIGN_frames"

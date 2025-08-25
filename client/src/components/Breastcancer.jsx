@@ -80,8 +80,9 @@ import jsPDF from "jspdf";
 import SideBar from "@/components/kunal_components/SideBar"; // Import the custom sidebar
 //import report from "./../assets/om.pdf"
 import logo from "../assets/ServiceNow_idno3ayWVM_1.png";
-// Using ServiceNow logo for PDF header
-// import logo2 from "../assets/setvlogo.jpeg"; // Original logo not available
+// import logo2 from "../assets/setvlogo.jpeg";
+// If you need a secondary logo, use the ServiceNow logo instead:
+import logo2 from "../assets/ServiceNow_idno3ayWVM_1.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
@@ -544,23 +545,23 @@ export default function BreastCancerDetection({ logoutFunction }) {
     try {
       const doc = new jsPDF();
 
-      // Add ServiceNow logo to PDF header
-      if (logo) {
-        doc.addImage(logo, "PNG", 10, 10, 25, 20);
+      // Add logo if available
+      if (logo2) {
+        doc.addImage(logo2, "JPEG", 10, 10, 25, 20);
       }
 
       // Header Section
       doc.setFontSize(14);
       doc.setTextColor(0, 51, 102);
-      doc.text("ServiceNow HealthCare", 105, 15, { align: "center" });
+      doc.text("THE SETV.G HOSPITAL", 105, 15, { align: "center" });
       doc.setFontSize(12);
-      doc.text("Smart | Reliable | Instant", 105, 22, { align: "center" });
-      doc.text("Phone: +91-XXXXXXXXXX", 105, 30, {
+      doc.text("Accurate | Caring | Instant", 105, 22, { align: "center" });
+      doc.text("Phone: 040-XXXXXXXXX / +91 XX XXX XXX", 105, 30, {
         align: "center",
       });
-      doc.text("Email: servicenowhealth@gmail.com", 105, 37, { align: "center" });
+      doc.text("Email: setvgbhospital@gmail.com", 105, 37, { align: "center" });
       doc.text(
-        "ServiceNow HQ, Hyderabad, Telangana, 500037",
+        "SETV.ASRV LLP, Avishkaran, NIPER, Balanagar, Hyderabad, Telangana, 500037.",
         105,
         44,
         { align: "center" }
@@ -633,7 +634,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
       doc.setFillColor(24, 185, 232).rect(0, 280, 210, 10, "F");
       doc.setTextColor(255, 255, 255).setFontSize(10);
       doc.text(
-        "Page 1 || ServiceNow HealthCare || EMERGENCY CONTACT - +91 XXXXXXXXXX",
+        "Page 1 || THE SETV.G HOSPITAL || EMERGENCY CONTACT - +91 XXXXXXXXXX",
         105,
         286,
         { align: "center" }
@@ -642,9 +643,9 @@ export default function BreastCancerDetection({ logoutFunction }) {
       // Page 2 - Recommendations, Correlation & Disclaimer
       doc.addPage();
       doc.setFontSize(14).setTextColor(0, 51, 102);
-      doc.text("ServiceNow HealthCare", 105, 15, { align: "center" });
+      doc.text("THE SETV.G HOSPITAL", 105, 15, { align: "center" });
       doc.setFontSize(12);
-      doc.text("Smart | Reliable | Instant", 105, 22, { align: "center" });
+      doc.text("Accurate | Caring | Instant", 105, 22, { align: "center" });
 
       doc.setFillColor(255, 0, 0).rect(0, 25, 210, 3, "F");
       doc.setFillColor(0, 0, 255).rect(0, 28, 210, 3, "F");
@@ -681,7 +682,7 @@ export default function BreastCancerDetection({ logoutFunction }) {
       doc.setFillColor(24, 185, 232).rect(0, 280, 210, 10, "F");
       doc.setTextColor(255, 255, 255);
       doc.text(
-        "Page 2 || ServiceNow HealthCare || EMERGENCY CONTACT - +91 XXXXXXXXXX",
+        "Page 2 || THE SETV.G HOSPITAL || EMERGENCY CONTACT - +91 XXXXXXXXXX",
         105,
         286,
         { align: "center" }
