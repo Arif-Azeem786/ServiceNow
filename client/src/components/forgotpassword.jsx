@@ -92,7 +92,7 @@ const ForgotPassword = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const url = "https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/forgot-password";  // Replace with your backend route for forgot password
+      const url = "https://servicenow-1-rcpd.onrender.com/auth/forgot-password";  // Replace with your backend route for forgot password
       const response = await fetch(url, {
         method: "POST",
         headers: {

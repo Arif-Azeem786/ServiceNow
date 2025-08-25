@@ -192,7 +192,7 @@ export default function FibroidDetection({ logoutFunction }) {
       formData.append("pdfFile", pdfBlob);
       formData.append("temp", temp);
 
-      const response = await fetch("https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/upload", {
+      const response = await fetch("https://servicenow-1-rcpd.onrender.com/auth/upload", {
         method: "POST",
         body: formData,
       });
@@ -259,7 +259,7 @@ export default function FibroidDetection({ logoutFunction }) {
 
         // Send to backend to store the visit data
         const response = await fetch(
-          "https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/api/submit-visit",
+          "https://servicenow-1-rcpd.onrender.com/auth/api/submit-visit",
           {
             method: "POST",
             body: formData,
@@ -465,7 +465,7 @@ export default function FibroidDetection({ logoutFunction }) {
 
   const uploadFrameToAzure = async (base64Image, idx, visitId) => {
     try {
-      const response = await fetch("https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/upload-frame", {
+      const response = await fetch("https://servicenow-1-rcpd.onrender.com/auth/upload-frame", {
         method: "POST",
         mode: "cors", // Allow cross-origin requests
         headers: {

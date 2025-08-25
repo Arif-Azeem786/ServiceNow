@@ -124,8 +124,7 @@ function SignupForm() {
 
   
     try {
-      const url = "https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/signup";
-      const response = await fetch(url, {
+        const response = await fetch('https://servicenow-1-rcpd.onrender.com/auth/signup', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

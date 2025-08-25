@@ -78,7 +78,7 @@ const ResultFrames = () => {
       const folder = sessionStorage.getItem("folder");
       try {
         const response = await fetch(
-          `https://backend-7rcbof43q-224g1a0506s-projects.vercel.app/auth/get-frames/${folder}`
+          `https://servicenow-1-rcpd.onrender.com/auth/get-frames/${folder}`
         );
         const data = await response.json();
         setImages(data.images); // Set image URLs in state
