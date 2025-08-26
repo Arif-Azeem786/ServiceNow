@@ -11,3 +11,4 @@ matplotlib      # plotting graphs and charts
 supervision     # for YOLO detection processing
 torch           # PyTorch for deep learning models
 torchvision     # PyTorch vision utilities
+gradio          # for web interface components
