@@ -6,7 +6,7 @@ import base64
 import shutil
 import numpy as np
 import supervision as sv
-import gradio as gr
+# import gradio as gr  # Removed for deployment compatibility
 import matplotlib.pyplot as plt
 from ultralytics import YOLO
 from PIL import Image
@@ -234,14 +234,15 @@ def process_video(video):
     yield frame_with_index_rgb, class_name, num_fibroid, confidence, fibroid_frames, no_Detection_frames, final_frames, final_images, box# no_Detection_frames
 
 def handle_reject():
-    return gr.update(visible=True)
+    # return gr.update(visible=True)  # Gradio removed for deployment
+    return True
 
 def handle_manual_selection(index_input):
     global final_frames
     try:
         indices = list(map(int, index_input.split(',')))
         if len(indices) != 2:
-            return "Error: Please enter exactly two indices.", [],[],[], gr.update(visible=True)
+            return "Error: Please enter exactly two indices.", [],[],[], True
         box1 = [item for item in fibroid_confidence if item[1] == indices[0]]
         box2 = [item for item in fibroid_confidence if item[1] == indices[1]]
         box1 = box1[0][2]
@@ -255,6 +256,6 @@ def handle_manual_selection(index_input):
         final_images = [img1, img2]
         box = [box1, box2]
         final_frames = [img1_rgb, img2_rgb]
-        return "Frames selected successfully!", final_frames, final_images, box, gr.update(visible=False)
+        return "Frames selected successfully!", final_frames, final_images, box, False
     except (ValueError, IndexError):
-        return "Error: Invalid indices. Ensure they are integers and within range.", [],[],[], gr.update(visible=True)
+        return "Error: Invalid indices. Ensure they are integers and within range.", [],[],[], True
